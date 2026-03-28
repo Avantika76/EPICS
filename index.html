@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cattle Breed Detection</title>
+</head>
+<body>
+
+<h2>Upload Cattle Image</h2>
+
+<input type="file" id="fileInput">
+<input type="number" id="cattleId" placeholder="Enter Cattle ID">
+
+<button onclick="upload()">Predict</button>
+
+<h3 id="result"></h3>
+<script>
+function upload() {
+    const file = document.getElementById("fileInput").files[0];
+    const cattleId = document.getElementById("cattleId").value;
+
+    console.log("FILE:", file);
+    console.log("CATTLE ID:", cattleId);
+
+    if (!file) {
+        alert("Select file!");
+        return;
+    }
+
+    if (!cattleId) {
+        alert("Enter cattle ID!");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("cattle_id", cattleId);
+
+    fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+
+        document.getElementById("result").innerText =
+            "Breed: " + data.breed + " | Confidence: " + data.confidence;
+    })
+    .catch(err => console.log(err));
+}
+</script>
+
+</body>
+</html>
