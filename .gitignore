@@ -1,0 +1,8 @@
+model.pth
+__pycache__/
+*.pyc
+.env
+*.pth
+*.zip
+convnext_tiny_best*
+
